@@ -14,7 +14,7 @@ export class Server {
 
     constructor() {
         this.app = express();
-        this.port = config.HOST;
+        this.port = config.PORT;        
 
         this.apiPaths = {
             auth: `${subRoute}/auth`,
