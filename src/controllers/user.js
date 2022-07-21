@@ -1,6 +1,8 @@
 // import { json } from 'sequelize/types';
+import Employee from '../models/employee.js';
 import user from '../models/user.js';
 // import prueba from '../models/prueba.js';
+
 
 
 export const getUsers = async (req, res) => {

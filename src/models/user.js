@@ -2,13 +2,31 @@ import { DataTypes } from 'sequelize';
 import { db } from '../db/connection.js';
 
 const user = db.define('user', {
-    nombre: {
-        type: DataTypes.STRING
-    },
     email: {
         type: DataTypes.STRING
     },
-    estado: {
+    name: {
+        type: DataTypes.STRING        
+    },
+    last_name:{        
+        type: DataTypes.STRING
+    },
+    entity_type: {
+        type: DataTypes.STRING
+    },
+    photo: {
+        type: DataTypes.STRING
+    },
+    phone: {
+        type: DataTypes.STRING
+    },
+    birth_date: {
+        type: DataTypes.DATEONLY
+    },
+    contact_email: {
+        type: DataTypes.STRING
+    },
+    active: {
         type: DataTypes.BOOLEAN
     }
 });
