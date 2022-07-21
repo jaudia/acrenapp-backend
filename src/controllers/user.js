@@ -1,5 +1,6 @@
 // import { json } from 'sequelize/types';
 import user from '../models/user.js';
+// import prueba from '../models/prueba.js';
 
 
 export const getUsers = async (req, res) => {
@@ -30,7 +31,8 @@ export const postUser = async (req, res) => {
 
     const { body } = req;
 
-    try {
+    try {        
+        
 
         const existeEmail = await user.findOne({
             where: {
@@ -45,15 +47,15 @@ export const postUser = async (req, res) => {
         }
 
 
-        const user = new user(body);
-        await user.save();
+        const newUser = new user(body);
+        await newUser.save();
 
-        res.json(user);
+        res.json(newUser);
 
 
     } catch (error) {
 
-        console.log(error);
+        console.error(error);
         res.status(500).json({
             msg: 'Hable con el administrador'
         })

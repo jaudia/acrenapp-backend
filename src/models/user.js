@@ -10,7 +10,7 @@ const user = db.define('user', {
     },
     estado: {
         type: DataTypes.BOOLEAN
-    },
+    }
 });
 
 

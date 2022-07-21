@@ -14,7 +14,7 @@ export class Server {
 
     constructor() {
         this.app = express();
-        this.port = config.PORT;        
+        this.port = config.PORT;
 
         this.apiPaths = {
             auth: `${subRoute}/auth`,
@@ -30,6 +30,8 @@ export class Server {
 
         // Rutas de mi aplicación
         this.routes();
+
+        this.dbSync();
     }
 
     async dbConnection() {
@@ -41,6 +43,16 @@ export class Server {
         } catch (error) {
             throw new Error(error);
 
+        }
+    }
+
+    async dbSync() {
+        try {
+
+            await db.sync({ alter: true, force: false });
+
+        } catch (error) {
+            console.error(error);
         }
     }
 
