@@ -1,15 +1,24 @@
 import { Router } from 'express';
 import * as userCtrl from '../controllers/user.js';
+import { validateJWT } from '../middlewares/auth.js';
 
 
 const router = Router();
 
 
-router.get('/', userCtrl.getUsers);
-router.get('/:id', userCtrl.getUser);
-router.post('/', userCtrl.postUser);
-router.put('/:id', userCtrl.putUser);
-router.delete('/:id', userCtrl.deleteUser);
+router.get('/:id',
+    validateJWT,
+    userCtrl.getUser);
+
+router.post('/', userCtrl.createUser);
+
+router.put('/:id',
+    validateJWT,
+    userCtrl.putUser);
+
+router.delete('/:id',
+    validateJWT,
+    userCtrl.deleteUser);
 
 
 export default router;

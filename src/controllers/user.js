@@ -1,33 +1,28 @@
 import { statusCodes } from '../constants/statusCodes.js';
-import { reply } from '../helpers/response.js';
-import Employee from '../models/employee.js';
-import User from '../models/user.js';
+import { defaultReplyInternalError, reply } from '../helpers/response.js';
+import { User } from '../models/user.js';
+import bcryptjs from 'bcryptjs';
+import { Op } from 'sequelize';
 
 export const deleteUser = async (req, res) => {
 
     const { id } = req.params;
 
     const user = await User.findByPk(id);
+
     if (!user) {
         return res.status(404).json({
             msg: 'No existe un user con el id ' + id
         });
     }
 
-    await User.update({ estado: false });
-
-    // await user.destroy();
+    await User.update({ active: false });
 
 
     res.json(user);
 }
 
-export const getUsers = async (req, res) => {
 
-    const users = await User.findAll();
-
-    res.json({ users });
-}
 
 export const getUser = async (req, res) => {
 
@@ -35,20 +30,16 @@ export const getUser = async (req, res) => {
 
     const user = await User.findByPk(id);
 
-    if (user) {
-        // res.json(user);
-        reply(res, ['salio bien', 'todo ok']);
-    } else {
-        reply(res, ['todo mal', 'muy mal', `No existe un user con el id ${id}`], false, statusCodes.NOT_FOUND)
-        // res.status(404).json({
-        //     msg: `No existe un user con el id ${id}`
-        // });
-    }
+    if (user)
 
+        reply(res, user);
 
+    else
+
+        reply(res, null, [`No existe un user con el id ${id}`], false, statusCodes.NOT_FOUND);
 }
 
-export const postUser = async (req, res) => {
+export const createUser = async (req, res) => {
 
     const { body } = req;
 
@@ -56,33 +47,40 @@ export const postUser = async (req, res) => {
 
         const existsEmail = await User.findOne({
             where: {
-                email: body.email
+                [Op.or]: [
+                    { email: body.email },
+                    { dni: body.dni }]
             }
         });
 
-        if (existsEmail) {
-            return res.status(400).json({
-                ok: false,
-                msg: 'Ya existe un user con el email ' + body.email
-            });
+        if (existsEmail)
+
+            reply(res,
+                null,
+                [`Ya existe un usuario con el email ${body.email}`],
+                false,
+                statusCodes.BAD_REQUEST);
+
+        else {
+
+            // Encriptar la contraseña
+            const salt = bcryptjs.genSaltSync();
+
+            const pass = bcryptjs.hashSync(body.password, salt);
+
+            const newUser = await User.create({ ...body, password: pass });
+
+            reply(res, newUser, ['Se ha registrado correctamente']);
         }
-
-        const newUser = new user(body);
-
-        await newUser.save();
-
-        res.json(newUser);
 
 
     } catch (error) {
 
         console.error(error);
-        res.status(500).json({
-            msg: 'Hable con el administrador'
-        })
+
+        defaultReplyInternalError(res);
+
     }
-
-
 
 }
 

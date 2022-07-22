@@ -32,7 +32,9 @@ const Employee = db.define('employee', {
         type: DataTypes.STRING
     },
     active: {
-        type: DataTypes.BOOLEAN
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+        allowNull: false
     }
 
 });

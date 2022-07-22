@@ -5,3 +5,4 @@ export const DATABASE = process.env.DATABASE || 'acrenapp_dev_db';
 export const DB_PORT = process.env.DB_PORT || 5432;
 export const DB_USERNAME = process.env.DB_USERNAME || 'db_admin_dev';
 export const DB_PASSWORD = process.env.DB_PASSWORD || '123456';
+export const SECRET_PRIVATE_KEY = process.env.SECRET_PRIVATE_KEY || 'secreto-dev';

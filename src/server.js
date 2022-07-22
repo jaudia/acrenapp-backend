@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { db } from './db/connection.js';
 
-// import authRoutes from './routes/auth.js';
+import authRoutes from './routes/auth.js';
 // import homeRoutes from './routes/home.js';
 import userRoutes from './routes/user.js';
 import * as config from '../config.js'
@@ -19,7 +19,7 @@ export class Server {
         this.apiPaths = {
             auth: `${subRoute}/auth`,
             home: `${subRoute}/home`,
-            user: `${subRoute}/user`
+            user: `${subRoute}/user`            
         }
 
         // Conectar a base de datos
@@ -71,7 +71,7 @@ export class Server {
     }
 
     routes() {
-        // this.app.use(this.apiPaths.auth, authRoutes);
+        this.app.use(this.apiPaths.auth, authRoutes);
         // this.app.use(this.apiPaths.home, homeRoutes);
         this.app.use(this.apiPaths.user, userRoutes);
 

@@ -1,7 +1,20 @@
+import { statusCodes } from "../constants/statusCodes.js";
 
-export const reply = async (res, messages, ok=true, code=200) => {
+export const reply = (res, data, messages = [], ok = true, code = statusCodes.OK) => {
     return res.status(code).json({
-        ok,        
+        ok,
+        data,
         messages
     });
+}
+
+export const defaultReplyInternalError = (res) => {
+    return reply(
+        res,
+        null,
+        ['Se produjo un error interno en la aplicación. Si el problema persiste, contacte a soporte.'],
+        false,
+        statusCodes.INTERNAL_ERROR
+    );
+
 }
