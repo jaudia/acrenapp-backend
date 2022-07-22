@@ -59,7 +59,7 @@ export const createUser = async (req, res) => {
                 null,
                 [`Ya existe un usuario con el email ${body.email}`],
                 false,
-                statusCodes.BAD_REQUEST);
+                statusCodes.NOT_FOUND);
 
         else {
 
