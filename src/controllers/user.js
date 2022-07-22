@@ -1,13 +1,30 @@
-// import { json } from 'sequelize/types';
+import { statusCodes } from '../constants/statusCodes.js';
+import { reply } from '../helpers/response.js';
 import Employee from '../models/employee.js';
-import user from '../models/user.js';
-// import prueba from '../models/prueba.js';
+import User from '../models/user.js';
+
+export const deleteUser = async (req, res) => {
+
+    const { id } = req.params;
+
+    const user = await User.findByPk(id);
+    if (!user) {
+        return res.status(404).json({
+            msg: 'No existe un user con el id ' + id
+        });
+    }
+
+    await User.update({ estado: false });
+
+    // await user.destroy();
 
 
+    res.json(user);
+}
 
 export const getUsers = async (req, res) => {
 
-    const users = await user.findAll();
+    const users = await User.findAll();
 
     res.json({ users });
 }
@@ -16,14 +33,16 @@ export const getUser = async (req, res) => {
 
     const { id } = req.params;
 
-    const user = await user.findByPk(id);
+    const user = await User.findByPk(id);
 
     if (user) {
-        res.json(user);
+        // res.json(user);
+        reply(res, ['salio bien', 'todo ok']);
     } else {
-        res.status(404).json({
-            msg: `No existe un user con el id ${id}`
-        });
+        reply(res, ['todo mal', 'muy mal', `No existe un user con el id ${id}`], false, statusCodes.NOT_FOUND)
+        // res.status(404).json({
+        //     msg: `No existe un user con el id ${id}`
+        // });
     }
 
 
@@ -33,23 +52,23 @@ export const postUser = async (req, res) => {
 
     const { body } = req;
 
-    try {        
-        
+    try {
 
-        const existeEmail = await user.findOne({
+        const existsEmail = await User.findOne({
             where: {
                 email: body.email
             }
         });
 
-        if (existeEmail) {
+        if (existsEmail) {
             return res.status(400).json({
+                ok: false,
                 msg: 'Ya existe un user con el email ' + body.email
             });
         }
 
-
         const newUser = new user(body);
+
         await newUser.save();
 
         res.json(newUser);
@@ -74,14 +93,14 @@ export const putUser = async (req, res) => {
 
     try {
 
-        const user = await user.findByPk(id);
+        const user = await User.findByPk(id);
         if (!user) {
             return res.status(404).json({
                 msg: 'No existe un user con el id ' + id
             });
         }
 
-        await user.update(body);
+        await User.update(body);
 
         res.json(user);
 
@@ -94,24 +113,3 @@ export const putUser = async (req, res) => {
         })
     }
 }
-
-
-export const deleteUser = async (req, res) => {
-
-    const { id } = req.params;
-
-    const user = await user.findByPk(id);
-    if (!user) {
-        return res.status(404).json({
-            msg: 'No existe un user con el id ' + id
-        });
-    }
-
-    await user.update({ estado: false });
-
-    // await user.destroy();
-
-
-    res.json(user);
-}
-

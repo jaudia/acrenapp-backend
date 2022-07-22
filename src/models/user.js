@@ -1,17 +1,17 @@
 import { DataTypes } from 'sequelize';
 import { db } from '../db/connection.js';
 
-const user = db.define('user', {
+const User = db.define('user', {
     email: {
         type: DataTypes.STRING
     },
     name: {
-        type: DataTypes.STRING        
-    },
-    last_name:{        
         type: DataTypes.STRING
     },
-    entity_type: {
+    lastName: {
+        type: DataTypes.STRING
+    },
+    entityType: {
         type: DataTypes.STRING
     },
     photo: {
@@ -20,16 +20,15 @@ const user = db.define('user', {
     phone: {
         type: DataTypes.STRING
     },
-    birth_date: {
+    birthDate: {
         type: DataTypes.DATEONLY
     },
-    contact_email: {
+    contactEmail: {
         type: DataTypes.STRING
-    },
+    },    
     active: {
         type: DataTypes.BOOLEAN
     }
 });
 
-
-export default user;
+export default User;
