@@ -45,7 +45,9 @@ export const createUser = async (req, res) => {
 
     try {
 
-        const existsEmail = await User.findOne({
+        let errorMsg = '';
+
+        const existsUser = await User.findOne({
             where: {
                 [Op.or]: [
                     { email: body.email },
@@ -53,13 +55,23 @@ export const createUser = async (req, res) => {
             }
         });
 
-        if (existsEmail)
+        if (existsUser) {
+
+            if (existsUser.email === body.email)
+
+                errorMsg = `Ya existe un usuario con el email ${body.email}`;
+
+            else
+
+                errorMsg = `Ya existe un usuario con el dni ${body.dni}`
 
             reply(res,
                 null,
-                [`Ya existe un usuario con el email ${body.email}`],
+                [errorMsg],
                 false,
                 statusCodes.NOT_FOUND);
+
+        }
 
         else {
 

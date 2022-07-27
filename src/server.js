@@ -5,6 +5,7 @@ import { db } from './db/connection.js';
 import authRoutes from './routes/auth.js';
 // import homeRoutes from './routes/home.js';
 import userRoutes from './routes/user.js';
+import eventRoutes from './routes/event.js';
 import * as config from '../config.js'
 
 
@@ -18,7 +19,8 @@ export class Server {
 
         this.apiPaths = {
             auth: `${subRoute}/auth`,
-            home: `${subRoute}/home`,
+            event: `${subRoute}/event`,
+            // home: `${subRoute}/home`,
             user: `${subRoute}/user`            
         }
 
@@ -72,6 +74,7 @@ export class Server {
 
     routes() {
         this.app.use(this.apiPaths.auth, authRoutes);
+        this.app.use(this.apiPaths.event, eventRoutes);
         // this.app.use(this.apiPaths.home, homeRoutes);
         this.app.use(this.apiPaths.user, userRoutes);
 

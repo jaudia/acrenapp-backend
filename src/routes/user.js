@@ -10,8 +10,6 @@ router.get('/:id',
     validateJWT,
     userCtrl.getUser);
 
-router.post('/', userCtrl.createUser);
-
 router.put('/:id',
     validateJWT,
     userCtrl.putUser);
@@ -20,5 +18,6 @@ router.delete('/:id',
     validateJWT,
     userCtrl.deleteUser);
 
+router.post('/add', userCtrl.createUser);
 
 export default router;

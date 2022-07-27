@@ -2,13 +2,13 @@ import { DataTypes } from 'sequelize';
 import { db } from '../db/connection.js';
 import { User } from './user.js';
 
-export const Employee = db.define('employee', {
-    userId: {
+export const Event = db.define('event', {
+    id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: false
     },
-    id: {
+    userId: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: false
@@ -16,19 +16,34 @@ export const Employee = db.define('employee', {
     name: {
         type: DataTypes.STRING
     },
-    lasName: {
+    description: {
         type: DataTypes.STRING
     },
-    dni: {
-        type: DataTypes.INTEGER
-    },
-    emailNotifications: {
-        type: DataTypes.STRING
-    },
-    birthDate: {
+    date: {
         type: DataTypes.DATEONLY
     },
-    phone: {
+    time: {
+        type: DataTypes.TIME
+    },
+    place: {
+        type: DataTypes.STRING
+    },
+    urlImage: {
+        type: DataTypes.STRING
+    },
+    openingDateRequest: {
+        type: DataTypes.STRING
+    },
+    openingTimeRequest: {
+        type: DataTypes.TIME
+    },
+    closingDateRequest: {
+        type: DataTypes.STRING
+    },
+    closingTimeRequest: {
+        type: DataTypes.TIME
+    },
+    status: {
         type: DataTypes.STRING
     },
     active: {
@@ -39,5 +54,4 @@ export const Employee = db.define('employee', {
 
 });
 
-Employee.belongsTo(User);
-
+Event.belongsTo(User);
