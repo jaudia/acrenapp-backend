@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
 import { SECRET_PRIVATE_KEY } from '../../config.js';
 import { statusCodes } from '../constants/statusCodes.js';
+import { reply } from '../helpers/response.js';
+
 import { User } from '../models/user.js';
 
 
@@ -47,8 +49,6 @@ export const validateJWT = async (req, res, next) => {
         next();
 
     } catch (error) {
-
-        console.log(error);
 
         return reply(res,
             null,
