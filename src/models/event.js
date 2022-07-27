@@ -46,6 +46,11 @@ export const Event = db.define('event', {
     status: {
         type: DataTypes.STRING
     },
+    /*  El siguiente campo permite o no seguir mandando solicitudes,
+     por ejemplo, si se lleno el cupo se pasa a false. */
+    allowRequest: {
+        type: DataTypes.BOOLEAN
+    },
     active: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
@@ -55,3 +60,9 @@ export const Event = db.define('event', {
 });
 
 Event.belongsTo(User);
+
+export const statusTypes = {
+    CANCELLED: 'C', // Cancelado
+    FINISHED: 'F', // Finalizado    
+    OPEN: 'O', // Abierto    
+}

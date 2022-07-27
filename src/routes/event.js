@@ -10,4 +10,6 @@ router.get('/:id',
     validateJWT,
     eventCtrl.getEvent);
 
+
 export default router;
+
