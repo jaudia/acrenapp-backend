@@ -38,42 +38,50 @@ export const createEvent = async (req, res) => {
 
 export const getAll = async (req, res) => {
 
-    const { userId, name, date, place, status } = req.body;
+    try {
 
-    let whereStatement = {};
+        const { userId, name, date, place, status } = req.query;
 
-    if (!!userId)
+        let whereStatement = {};
 
-        whereStatement = { ...whereStatement, userId };
+        if (!!userId)
 
-    if (!!name)
+            whereStatement = { ...whereStatement, userId };
 
-        whereStatement = { ...whereStatement, name };
+        if (!!name)
 
-    if (!!date)
+            whereStatement = { ...whereStatement, name };
 
-        whereStatement = { ...whereStatement, date };
+        if (!!date)
 
-    if (!!place)
+            whereStatement = { ...whereStatement, date };
 
-        whereStatement = { ...whereStatement, place };
+        if (!!place)
 
-    if (!!status)
+            whereStatement = { ...whereStatement, place };
 
-        whereStatement = { ...whereStatement, status };
+        if (!!status)
+
+            whereStatement = { ...whereStatement, status };
 
 
-    const events = await Event.findAll({
-        where: whereStatement
-    });
+        const events = await Event.findAll({
+            where: whereStatement
+        });
 
-    if (!!events)
+        if (!!events)
 
-        reply(res, events);
+            reply(res, events);
 
-    else
+        else
 
-        reply(res, null, [`No se encontraron eventos`], false, statusCodes.NOT_FOUND);
+            reply(res, null, [`No se encontraron eventos`], false, statusCodes.NOT_FOUND);
+
+    } catch (error) {
+
+        defaultReplyInternalError(res);
+
+    }
 }
 
 
