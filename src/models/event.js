@@ -3,16 +3,9 @@ import { db } from '../db/connection.js';
 import { User } from './user.js';
 
 export const Event = db.define('event', {
-    id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: false
-    },
     userId: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: false
-    },
+        type: DataTypes.INTEGER,        
+    },    
     name: {
         type: DataTypes.STRING
     },
@@ -50,11 +43,6 @@ export const Event = db.define('event', {
      por ejemplo, si se lleno el cupo se pasa a false. */
     allowRequest: {
         type: DataTypes.BOOLEAN
-    },
-    active: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true,
-        allowNull: false
     }
 
 });

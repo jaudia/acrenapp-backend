@@ -1,8 +1,80 @@
 import { statusCodes } from '../constants/statusCodes.js';
 import { defaultReplyInternalError, reply } from '../helpers/response.js';
-import { Event } from '../models/event.js';
-import bcryptjs from 'bcryptjs';
-import { Op } from 'sequelize';
+import { Event, statusTypes } from '../models/event.js';
+import { Op, where } from 'sequelize';
+
+
+export const createEvent = async (req, res) => {
+
+
+    try {
+
+        const { body } = req;
+
+        const userId = req.usr.id;
+
+        let errorMsg = '';
+
+        const newEvent = await Event.create({
+            ...body,
+            status: statusTypes.OPEN,
+            userId
+        });
+
+        if (!!newEvent)
+
+            reply(res, null, ['El evento se ha creado exitosamente!']);
+
+    } catch (error) {
+
+        console.error(error);
+
+        defaultReplyInternalError(res);
+
+    }
+
+}
+
+
+export const getAll = async (req, res) => {
+
+    const { userId, name, date, place, status } = req.body;
+
+    let whereStatement = {};
+
+    if (!!userId)
+
+        whereStatement = { ...whereStatement, userId };
+
+    if (!!name)
+
+        whereStatement = { ...whereStatement, name };
+
+    if (!!date)
+
+        whereStatement = { ...whereStatement, date };
+
+    if (!!place)
+
+        whereStatement = { ...whereStatement, place };
+
+    if (!!status)
+
+        whereStatement = { ...whereStatement, status };
+
+
+    const events = await Event.findAll({
+        where: whereStatement
+    });
+
+    if (!!events)
+
+        reply(res, events);
+
+    else
+
+        reply(res, null, [`No se encontraron eventos`], false, statusCodes.NOT_FOUND);
+}
 
 
 export const getEvent = async (req, res) => {

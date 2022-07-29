@@ -8,7 +8,10 @@ const router = Router();
 
 router.get('/:id',
     validateJWT,
-    userCtrl.getUser);
+    userCtrl.getUser);    
+
+
+router.post('/add', userCtrl.createUser);
 
 router.put('/:id',
     validateJWT,
@@ -18,6 +21,5 @@ router.delete('/:id',
     validateJWT,
     userCtrl.deleteUser);
 
-router.post('/add', userCtrl.createUser);
 
 export default router;

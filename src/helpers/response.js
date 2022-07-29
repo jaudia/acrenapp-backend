@@ -1,6 +1,6 @@
 import { statusCodes } from "../constants/statusCodes.js";
 
-export const reply = (res, data, messages = [], ok = true, code = statusCodes.OK) => {
+export const reply = (res, data = null, messages = [], ok = true, code = statusCodes.OK) => {
     return res.status(code).json({
         ok,
         data,

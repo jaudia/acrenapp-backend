@@ -5,8 +5,7 @@ import { User } from './user.js';
 export const Employee = db.define('employee', {
     userId: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: false
+        primaryKey: true,        
     },
     id: {
         type: DataTypes.INTEGER,
