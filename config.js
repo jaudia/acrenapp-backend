@@ -1,3 +1,5 @@
+// import { passGmail } from "./src/secretData";
+
 export const NODE_ENV = process.env.NODE_ENV || 'development';
 export const HOST = process.env.HOST || 'localhost';
 export const PORT = process.env.PORT || 3000;
@@ -9,10 +11,10 @@ export const SECRET_PRIVATE_KEY = process.env.SECRET_PRIVATE_KEY || 'secreto-dev
 
 
 
-export const mailConfig = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'acrenapp@gmail.com',
-      pass: 'yourpassword'
-    }
-  });
+// export const mailConfig = {
+//     service: 'gmail',
+//     auth: {
+//         user: 'acrenapp@gmail.com',
+//         pass: passGmail
+//     }
+// };

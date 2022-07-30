@@ -1,0 +1,1 @@
+export const passGmail = 'Acren123app';
