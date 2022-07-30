@@ -10,6 +10,7 @@ import employeeRoutes from './routes/employee.js';
 import eventRoutes from './routes/event.js';
 import homeRoutes from './routes/home.js';
 import positionRoutes from './routes/position.js';
+import templateFormRoutes from './routes/templateForm.js';
 import userRoutes from './routes/user.js';
 
 
@@ -28,6 +29,7 @@ export class Server {
             event: `${subRoute}/event`,
             home: `${subRoute}/home`,
             position: `${subRoute}/position`,
+            templateForm: `${subRoute}/templateForm`,
             user: `${subRoute}/user`
         }
 
@@ -40,6 +42,7 @@ export class Server {
         // Rutas de mi aplicación
         this.routes();
 
+        // Sincronizacion de base de datos
         this.dbSync();
     }
 
@@ -86,6 +89,7 @@ export class Server {
         this.app.use(this.apiPaths.event, eventRoutes);
         this.app.use(this.apiPaths.home, homeRoutes);
         this.app.use(this.apiPaths.position, positionRoutes);
+        this.app.use(this.apiPaths.templateForm, templateFormRoutes);
         this.app.use(this.apiPaths.user, userRoutes);
 
     }

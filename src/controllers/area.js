@@ -11,13 +11,10 @@ export const createArea = async (req, res) => {
         const { body } = req;
 
         const userId = req.usr.id;
-
-        const lastId = (await Area.max('id', { where: { userId } }) || 0) + 1;
-
+      
         const newArea = await Area.create({
             ...body,            
-            userId,
-            id: lastId
+            userId
         });
 
         if (!!newArea)

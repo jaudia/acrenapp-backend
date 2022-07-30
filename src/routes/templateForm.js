@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as areaCtrl from '../controllers/area.js';
+import * as templateFormCtrl from '../controllers/templateForm.js';
 import { validateJWT } from '../middlewares/auth.js';
 
 
@@ -13,13 +13,12 @@ const router = Router();
 
 router.post('/add',
     validateJWT,
-    areaCtrl.createArea);
+    templateFormCtrl.createTemplateForm);
 
 // router.put('/:id',
 //     validateJWT,
 //     );
 
-// Si se elimina un area, debe borrarse de una plantilla tambien.
 // router.delete('/:id',
 //     validateJWT,
 //     );

@@ -12,12 +12,9 @@ export const createPosition = async (req, res) => {
 
         const userId = req.usr.id;
 
-        const lastId = (await Position.max('id', { where: { userId } }) || 0) + 1;
-
         const newPosition = await Position.create({
             ...body,
-            userId,
-            id: lastId
+            userId
         });
 
         if (!!newPosition)
