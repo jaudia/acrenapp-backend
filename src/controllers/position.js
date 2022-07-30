@@ -1,9 +1,9 @@
 import { statusCodes } from '../constants/statusCodes.js';
 import { defaultReplyInternalError, reply } from '../helpers/response.js';
-import { Employee } from '../models/employee.js';
+import { Position } from '../models/position.js';
 import { Op, where } from 'sequelize';
 
-export const createEmployee = async (req, res) => {
+export const createPosition = async (req, res) => {
 
 
     try {
@@ -12,18 +12,17 @@ export const createEmployee = async (req, res) => {
 
         const userId = req.usr.id;
 
-        const lastId = (await Employee.max('id', { where: { userId } }) || 0) + 1;
+        const lastId = (await Position.max('id', { where: { userId } }) || 0) + 1;
 
-        const newEmployee = await Employee.create({
+        const newPosition = await Position.create({
             ...body,
-            status: statusTypes.OPEN,
             userId,
             id: lastId
         });
 
-        if (!!newEmployee)
+        if (!!newPosition)
 
-            reply(res, null, ['El Empleado se ha creado exitosamente!']);
+            reply(res, null, ['El puesto se ha creado exitosamente!']);
 
     } catch (error) {
 

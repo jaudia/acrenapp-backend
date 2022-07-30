@@ -1,12 +1,16 @@
 import express from 'express';
 import cors from 'cors';
 import { db } from './db/connection.js';
-
-import authRoutes from './routes/auth.js';
-// import homeRoutes from './routes/home.js';
-import userRoutes from './routes/user.js';
-import eventRoutes from './routes/event.js';
 import * as config from '../config.js'
+
+// Routes
+import areaRoutes from './routes/area.js';
+import authRoutes from './routes/auth.js';
+import employeeRoutes from './routes/employee.js';
+import eventRoutes from './routes/event.js';
+import homeRoutes from './routes/home.js';
+import positionRoutes from './routes/position.js';
+import userRoutes from './routes/user.js';
 
 
 const subRoute = '/api';
@@ -18,10 +22,13 @@ export class Server {
         this.port = config.PORT;
 
         this.apiPaths = {
+            area: `${subRoute}/area`,
             auth: `${subRoute}/auth`,
+            employee: `${subRoute}/employee`,
             event: `${subRoute}/event`,
-            // home: `${subRoute}/home`,
-            user: `${subRoute}/user`            
+            home: `${subRoute}/home`,
+            position: `${subRoute}/position`,
+            user: `${subRoute}/user`
         }
 
         // Conectar a base de datos
@@ -73,9 +80,12 @@ export class Server {
     }
 
     routes() {
+        this.app.use(this.apiPaths.area, areaRoutes);
         this.app.use(this.apiPaths.auth, authRoutes);
+        this.app.use(this.apiPaths.employee, employeeRoutes);
         this.app.use(this.apiPaths.event, eventRoutes);
-        // this.app.use(this.apiPaths.home, homeRoutes);
+        this.app.use(this.apiPaths.home, homeRoutes);
+        this.app.use(this.apiPaths.position, positionRoutes);
         this.app.use(this.apiPaths.user, userRoutes);
 
     }
@@ -88,7 +98,3 @@ export class Server {
 
 }
 
-
-
-
-// module.exports = Server;
