@@ -19,7 +19,7 @@ router.post('/add',
 //     validateJWT,
 //     );
 
-// Si se elimina un position, debe borrarse de una plantilla tambien.
+
 // router.delete('/:id',
 //     validateJWT,
 //     );

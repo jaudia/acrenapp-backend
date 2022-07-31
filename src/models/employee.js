@@ -5,12 +5,10 @@ import { User } from './user.js';
 export const Employee = db.define('employee', {
     userId: {
         type: DataTypes.INTEGER,
-        primaryKey: true,        
-    },
-    id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: false
+        references: {
+            model: User,
+            key: 'id'
+        }
     },
     name: {
         type: DataTypes.STRING
@@ -38,5 +36,4 @@ export const Employee = db.define('employee', {
 
 });
 
-Employee.belongsTo(User);
 

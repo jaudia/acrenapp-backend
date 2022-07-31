@@ -5,20 +5,19 @@ import { User } from './user.js';
 export const Position = db.define('position', {
     userId: {
         type: DataTypes.INTEGER,
+        references: {
+            model: User,
+            key: 'id'
+        }
     },
     positionName: {
         type: DataTypes.STRING,
         active: DataTypes.BOOLEAN,
         defaultValue: true
     }
-    // ,
-    // no hace falta, se puede borrar.
-    // active: {
-    //     type: DataTypes.BOOLEAN,
-    //     defaultValue: true
-    // }
 });
 
-Position.belongsTo(User);
+
+
 
 

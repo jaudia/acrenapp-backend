@@ -19,7 +19,6 @@ router.post('/add',
 //     validateJWT,
 //     );
 
-// Si se elimina un area, debe borrarse de una plantilla tambien.
 // router.delete('/:id',
 //     validateJWT,
 //     );
