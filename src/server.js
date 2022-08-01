@@ -4,6 +4,7 @@ import { db } from './db/connection.js';
 import * as config from '../config.js'
 
 // Routes
+import userRoutes from './routes/user.js';
 import areaRoutes from './routes/area.js';
 import authRoutes from './routes/auth.js';
 import employeeRoutes from './routes/employee.js';
@@ -11,7 +12,6 @@ import eventRoutes from './routes/event.js';
 import homeRoutes from './routes/home.js';
 import positionRoutes from './routes/position.js';
 import templateFormRoutes from './routes/templateForm.js';
-import userRoutes from './routes/user.js';
 
 
 const subRoute = '/api';
@@ -23,14 +23,14 @@ export class Server {
         this.port = config.PORT;
 
         this.apiPaths = {
+            user: `${subRoute}/user`,
             area: `${subRoute}/area`,
             auth: `${subRoute}/auth`,
             employee: `${subRoute}/employee`,
             event: `${subRoute}/event`,
             home: `${subRoute}/home`,
             position: `${subRoute}/position`,
-            templateForm: `${subRoute}/templateForm`,
-            user: `${subRoute}/user`
+            templateForm: `${subRoute}/templateForm`
         }
 
         // Conectar a base de datos
@@ -38,17 +38,18 @@ export class Server {
 
         // Middlewares
         this.middlewares();
-
+                        
         // Rutas de mi aplicación
         this.routes();
 
         // Sincronizacion de base de datos
         this.dbSync();
+
     }
 
     async dbConnection() {
         try {
-            await db.authenticate();
+            await db.authenticate();            
 
             console.log('BD arriba');
 
@@ -83,6 +84,7 @@ export class Server {
     }
 
     routes() {
+        this.app.use(this.apiPaths.user, userRoutes);
         this.app.use(this.apiPaths.area, areaRoutes);
         this.app.use(this.apiPaths.auth, authRoutes);
         this.app.use(this.apiPaths.employee, employeeRoutes);
@@ -90,7 +92,6 @@ export class Server {
         this.app.use(this.apiPaths.home, homeRoutes);
         this.app.use(this.apiPaths.position, positionRoutes);
         this.app.use(this.apiPaths.templateForm, templateFormRoutes);
-        this.app.use(this.apiPaths.user, userRoutes);
 
     }
 

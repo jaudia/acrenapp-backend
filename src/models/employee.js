@@ -3,13 +3,6 @@ import { db } from '../db/connection.js';
 import { User } from './user.js';
 
 export const Employee = db.define('employee', {
-    userId: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: User,
-            key: 'id'
-        }
-    },
     name: {
         type: DataTypes.STRING
     },

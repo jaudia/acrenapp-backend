@@ -1,5 +1,12 @@
 import { DataTypes } from 'sequelize';
 import { db } from '../db/connection.js';
+import { Area } from './area.js';
+import { Employee } from './employee.js';
+import { Event } from './event.js';
+import { Position } from './position.js';
+import { RequestHeader } from './request.js';
+import { TemplateForm } from './templateForm.js';
+
 
 export const User = db.define('user', {
     email: {
@@ -57,3 +64,22 @@ export const entityUserTypes = {
     MEDIA_ENTERPRISE: 'M',
     PERSON: 'P'
 }
+
+
+User.hasMany(Employee);
+Employee.belongsTo(User);
+
+User.hasMany(Area);
+Area.belongsTo(User);
+
+User.hasMany(Position);
+Position.belongsTo(User);
+
+User.hasMany(TemplateForm);
+TemplateForm.belongsTo(User);
+
+User.hasMany(RequestHeader);
+RequestHeader.belongsTo(User);
+
+User.hasMany(Event);
+Event.belongsTo(User);

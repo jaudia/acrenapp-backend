@@ -2,6 +2,7 @@ import { statusCodes } from '../constants/statusCodes.js';
 import { defaultReplyInternalError, reply } from '../helpers/response.js';
 import { Event, statusTypes } from '../models/event.js';
 import { Op, where } from 'sequelize';
+import { EventFormField } from '../models/eventFormFields.js';
 
 
 export const createEvent = async (req, res) => {

@@ -1,15 +1,18 @@
 import { DataTypes } from 'sequelize';
 import { db } from '../db/connection.js';
+import { EventArea, EventFormField, EventPosition } from './eventFormFields.js';
+// import { RequestHeader } from './request.js';
 import { User } from './user.js';
 
-export const Event = db.define('event', {
-    hostId: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: User,
-            key: 'id'
-        }
-    },
+
+export const statusTypes = {
+    CANCELLED: 'C', // Cancelado
+    FINISHED: 'F', // Finalizado    
+    OPEN: 'O', // Abierto    
+}
+
+
+export const Event = db.define('event', {    
     name: {
         type: DataTypes.STRING
     },
@@ -53,9 +56,13 @@ export const Event = db.define('event', {
 
 });
 
+Event.hasMany(EventArea);
+EventArea.belongsTo(Event);
 
-export const statusTypes = {
-    CANCELLED: 'C', // Cancelado
-    FINISHED: 'F', // Finalizado    
-    OPEN: 'O', // Abierto    
-}
+Event.hasMany(EventPosition);
+EventPosition.belongsTo(Event);
+
+Event.hasMany(EventFormField);
+EventFormField.belongsTo(Event);
+
+
