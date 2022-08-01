@@ -6,12 +6,17 @@ import { validateJWT } from '../middlewares/auth.js';
 const router = Router();
 
 
+router.get('/all',
+    validateJWT,
+    userCtrl.getUserAll);    
+
+
 router.get('/:id',
     validateJWT,
     userCtrl.getUser);    
 
 
-router.post('/add', userCtrl.createUser);
+router.post('/', userCtrl.createUser);
 
 router.put('/:id',
     validateJWT,

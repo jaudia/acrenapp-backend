@@ -68,16 +68,16 @@ export const deleteUser = async (req, res) => {
 
     const user = await User.findByPk(id);
 
-    if (!user) {
-        return res.status(404).json({
-            msg: 'No existe un user con el id ' + id
-        });
+    if (!user)
+
+        reply(res, null, [`No existe un user con el id ${id}`], false, statusCodes.BAD_REQUEST);
+
+    else {
+
+        await User.update({ active: false });
+
+        reply(res, User, ['Usuario eliminado correctamente.']);
     }
-
-    await User.update({ active: false });
-
-
-    res.json(user);
 }
 
 
@@ -94,6 +94,26 @@ export const getUser = async (req, res) => {
     else
 
         reply(res, null, [`No existe un user con el id ${id}`], false, statusCodes.NOT_FOUND);
+}
+
+
+export const getUserAll = async (req, res) => {
+
+    const { query } = req;
+
+    const user = await User.findAll({
+        where: {
+            ...query
+        }
+    });
+
+    if (user)
+
+        reply(res, user);
+
+    else
+
+        reply(res, null, [`No se encontraron usuarios con los datos solicitados.`], false, statusCodes.NOT_FOUND);
 }
 
 

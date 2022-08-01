@@ -11,7 +11,7 @@ const router = Router();
 //     );    
 
 
-router.post('/add',
+router.post('/',
     validateJWT,
     employeeCtrl.createEmployee);
 
