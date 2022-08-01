@@ -3,12 +3,13 @@ import { defaultReplyInternalError, reply } from '../helpers/response.js';
 import { User } from '../models/user.js';
 import bcryptjs from 'bcryptjs';
 import { Op } from 'sequelize';
+import { buildUpdate, buildWhere } from '../helpers/statements.js';
 
 export const createUser = async (req, res) => {
 
-    const { body } = req;
-
     try {
+
+        const { body } = req;
 
         let errorMsg = '';
 
@@ -64,82 +65,127 @@ export const createUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
 
-    const { id } = req.params;
+    try {
 
-    const user = await User.findByPk(id);
+        const { id } = req.params;
 
-    if (!user)
+        const user = await User.findByPk(id);
 
-        reply(res, null, [`No existe un user con el id ${id}`], false, statusCodes.BAD_REQUEST);
+        if (!user)
 
-    else {
+            reply(res, null, [`No existe un user con el id ${id}`], false, statusCodes.BAD_REQUEST);
 
-        await User.update({ active: false });
+        else {
 
-        reply(res, User, ['Usuario eliminado correctamente.']);
+            await User.update({ active: false });
+
+            reply(res, User, ['Usuario eliminado correctamente.']);
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        defaultReplyInternalError(res);
+
     }
 }
 
 
 export const getUser = async (req, res) => {
 
-    const { id } = req.params;
+    try {
 
-    const user = await User.findByPk(id);
+        const { id } = req.params;
 
-    if (user)
+        const user = await User.findByPk(id);
 
-        reply(res, user);
+        if (user)
 
-    else
+            reply(res, user);
 
-        reply(res, null, [`No existe un user con el id ${id}`], false, statusCodes.NOT_FOUND);
+        else
+
+            reply(res, null, [`No existe un user con el id ${id}`], false, statusCodes.NOT_FOUND);
+
+    } catch (error) {
+
+        console.error(error);
+
+        defaultReplyInternalError(res);
+
+    }
 }
 
 
 export const getUserAll = async (req, res) => {
 
-    const { query } = req;
+    try {
 
-    const user = await User.findAll({
-        where: {
-            ...query
-        }
-    });
+        const { name, lastName, dni } = req.query;
 
-    if (user)
+        const arrFields = [
+            { name },
+            { lastName },
+            { dni }
+        ];
 
-        reply(res, user);
+        const whereStatement = buildWhere(arrFields);
 
-    else
+        const user = await User.findAll({
+            where: {
+                ...whereStatement
+            }
+        });
 
-        reply(res, null, [`No se encontraron usuarios con los datos solicitados.`], false, statusCodes.NOT_FOUND);
+        if (user)
+
+            reply(res, user);
+
+        else
+
+            reply(res, null, [`No se encontraron usuarios con los datos solicitados.`], false, statusCodes.NOT_FOUND);
+
+    } catch (error) {
+
+        console.error(error);
+
+        defaultReplyInternalError(res);
+
+    }
 }
 
 
 export const putUser = async (req, res) => {
 
-    const { id } = req.params;
-    const { body } = req;
-
     try {
 
-        const user = await User.findByPk(id);
-        if (!user) {
-            return res.status(404).json({
-                msg: 'No existe un user con el id ' + id
-            });
-        }
+        const { id } = req.params;
 
-        await User.update(body);
+        const { name,
+            lastName,
+            phone } = req.body;
 
-        res.json(user);
+        const arrFields = [
+            { name },
+            { lastName },
+            { phone }
+        ];
+
+
+        let updateStatement = buildUpdate(arrFields);
+
+        const result = await User.update(
+            { ...updateStatement },
+            { where: { id } }
+        );
+
+        reply(res, null, ['Modificaciones realizadas correctamente.']);
 
     } catch (error) {
 
-        console.log(error);
-        res.status(500).json({
-            msg: 'Hable con el administrador'
-        })
+        console.error(error);
+
+        defaultReplyInternalError(res);
     }
 }

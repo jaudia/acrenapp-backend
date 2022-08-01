@@ -8,15 +8,16 @@ const router = Router();
 
 router.get('/all',
     validateJWT,
-    userCtrl.getUserAll);    
+    userCtrl.getUserAll);
 
 
 router.get('/:id',
     validateJWT,
-    userCtrl.getUser);    
+    userCtrl.getUser);
 
 
-router.post('/', userCtrl.createUser);
+router.post('/',
+    userCtrl.createUser);
 
 router.put('/:id',
     validateJWT,

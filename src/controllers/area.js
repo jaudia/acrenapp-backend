@@ -4,7 +4,6 @@ import { Area } from '../models/area.js';
 
 export const createArea = async (req, res) => {
 
-
     try {
 
         const { body } = req;
@@ -39,52 +38,109 @@ export const createArea = async (req, res) => {
 
 export const deleteArea = async (req, res) => {
 
-    const { id } = req.params;
+    try {
 
-    const area = await Area.findByPk(id);
+        const { id } = req.params;
 
-    if (!area)
+        const area = await Area.findByPk(id);
 
-        reply(res, null, [`No existe un area con el id ${id}`], false, statusCodes.BAD_REQUEST);
+        if (!area)
 
-    else {
+            reply(res, null, [`No existe un area con el id ${id}`], false, statusCodes.BAD_REQUEST);
 
-        await Area.update({ active: false });
+        else {
 
-        reply(res, User, ['Area eliminada correctamente.']);
+            await Area.destroy();
+
+            reply(res, User, ['Area eliminada correctamente.']);
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        defaultReplyInternalError(res);
+
     }
 }
 
 export const getArea = async (req, res) => {
 
-    const { id } = req.params;
+    try {
 
-    const area = await Area.findByPk(id);
+        const { id } = req.params;
 
-    if (area)
+        const area = await Area.findByPk(id);
 
-        reply(res, area);
+        if (area)
 
-    else
+            reply(res, area);
 
-        reply(res, null, [`No existe el area con el id ${id}`], false, statusCodes.NOT_FOUND);
+        else
+
+            reply(res, null, [`No existe el area con el id ${id}`], false, statusCodes.NOT_FOUND);
+
+    } catch (error) {
+
+        console.error(error);
+
+        defaultReplyInternalError(res);
+
+    }
 }
 
 export const getAreaAll = async (req, res) => {
 
-    const { query } = req;
+    try {
 
-    const area = await Area.findAll({
-        where: {
-            ...query
+        const { query } = req;
+
+        const area = await Area.findAll({
+            where: {
+                ...query
+            }
+        });
+
+        if (area)
+
+            reply(res, area);
+
+        else
+
+            reply(res, null, [`No se encontraron areas con los datos solicitados.`], false, statusCodes.NOT_FOUND);
+
+    } catch (error) {
+
+        console.error(error);
+
+        defaultReplyInternalError(res);
+
+    }
+}
+
+export const putArea = async (req, res) => {
+
+    try {
+
+        const { id } = req.params;
+
+        const { body } = req;
+
+        const area = await Area.findByPk(id);
+
+        if (!area) {
+
+            reply(res, null, [`No existe un user con el id ${id}`], false, statusCodes.NOT_FOUND);
         }
-    });
 
-    if (area)
+        await area.update(...body);
 
-        reply(res, area);
+        res.json(area);
 
-    else
+    } catch (error) {
 
-        reply(res, null, [`No se encontraron areas con los datos solicitados.`], false, statusCodes.NOT_FOUND);
+        console.error(error);
+
+        defaultReplyInternalError(res);
+    }
 }
